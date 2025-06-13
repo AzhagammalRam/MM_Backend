@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node -r tsconfig-paths/register src/index.ts",
+    "dev": "ts-node src/index.ts",
     "build": "tsc --build",
-    "start": "ts-node -r tsconfig-paths/register src/index.ts",
+    "start": "ts-node src/index.ts",
     "test": "jest",
     "test:e2e": "jest --testPathPattern=src/e2e"
   },
