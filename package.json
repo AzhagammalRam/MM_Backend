@@ -2,11 +2,11 @@
   "name": "job-card-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "dev": "nodemon src/index.ts",
     "build": "tsc --build",
-    "start": "node build/index.js",
+    "start": "node src/index.ts",
     "test": "jest",
     "test:e2e": "jest --testPathPattern=src/e2e"
   },
