@@ -23,7 +23,7 @@ export function createApp() {
   global.__uploadDir = __dirname + "/uploads";
   global.__srcDir = __dirname;
   
-  let CLIENT_URLS = ["http://localhost:3000","http://job-card-zaara.s3-website.ap-south-1.amazonaws.com"]
+  let CLIENT_URLS = ["http://localhost:3000","http://job-card-zaara.s3-website.ap-south-1.amazonaws.com","https://materialmanagement.vercel.app/"]
   app.use(cookieParser());
   app.use(cors({
     origin: (origin, callback) => {
