@@ -30,7 +30,8 @@
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@prisma/client": "^5.18.0",
@@ -42,8 +43,7 @@
     "express": "^4.19.2",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
-    "tsconfig-paths": "^4.2.0"
+    "multer": "^1.4.5-lts.1"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
