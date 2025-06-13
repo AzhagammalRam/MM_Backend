@@ -25,17 +25,17 @@ function createApp() {
     // let CLIENT_URLS = ["http://localhost:3000","http://job-card-zaara.s3-website.ap-south-1.amazonaws.com","https://materialmanagement.vercel.app/"]
     let CLIENT_URLS = ["https://materialmanagement.vercel.app/"];
     app.use((0, cookie_parser_1.default)());
-    app.use((0, cors_1.default)({
-        origin: (origin, callback) => {
-            if (CLIENT_URLS.includes(origin) || !origin) {
-                callback(null, true);
-            }
-            else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        },
-        credentials: true,
-    }));
+    // app.use(cors({
+    //   origin: (origin, callback) => {
+    //     if (CLIENT_URLS.includes(origin!) || !origin) {
+    //       callback(null, true);
+    //     } else {
+    //       callback(new Error('Not allowed by CORS'));
+    //     }
+    //   },
+    //   credentials: true,
+    // }));
+    app.options('*', (0, cors_1.default)());
     app.use(express_1.default.urlencoded({ extended: false }));
     app.use(express_1.default.json());
     app.use((0, compression_1.default)());
