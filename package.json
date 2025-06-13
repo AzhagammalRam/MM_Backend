@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "build": "tsc --build",
-    "start": "node build/index.js",
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "test": "jest",
     "test:e2e": "jest --testPathPattern=src/e2e"
   },
@@ -47,5 +47,12 @@
   ,
   "prisma": {
     "schema": "src/prisma/schema.prisma"
+  },
+  
+  "_moduleDirectories": [
+    "node_modules_custom"
+  ],
+  "_moduleAliases": {
+    "@src": "./dist"
   }
 }
