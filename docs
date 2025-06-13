@@ -1,0 +1,127 @@
+1) npm init -y
+
+2) npm i -D typescript ts-node nodemon
+
+3) npx tsc --init 
+     or 
+   we can create tsconfig.json  manually
+
+4) npx tsc --build  - it will create build files
+
+Note : ts-node is important to run ts file
+       we configure nodemon in two ways
+       1) normal method
+       2) in package.json , 'start' : 'nodemon'
+          create nodemon.json and put below lines
+            {
+                "watch" : ["src"],
+                "ext"  : ".ts,.js",
+                "exec" : "ts-node ./src/index.ts"
+            }
+           
+Note : we can run ts file by using below commands
+       npx ts-node ./src/index.ts - but ts-node have no watch function that's why we use nodemon
+
+Note : If we want extend interface we can do like below
+       need to create filename.d.ts file
+
+
+
+install postgress
+------------------
+1) Download and Install PostgreSQL: 
+
+2) Download and install PgAdmin (optional - it might come with postgre installation)
+
+3) npm install sequelize pg pg-hstore
+   npm install --save-dev sequelize-cli
+
+4) npx sequelize-cli init
+    This will create the following directories and files:
+       config/config.json
+       models/
+       migrations/
+       seeders/
+
+5) Configure Sequelize to Use PostgreSQL  (config/config.json)
+
+6) Create the Database:
+    npx sequelize-cli db:create
+
+7) Define Models and Migrations
+  npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+
+8) Run the Migration:
+   npx sequelize-cli db:migrate
+
+
+prisma installation
+--------------------
+1) npx prisma init --datasource-provider postgresql
+2) npm i @prisma/client
+3) npx prisma migrate dev --name init 
+4) npx prisma generate ()
+5) create script file in src folder and paste it 
+   import { PrismaClient } from "@prisma/client";
+   const prisma = new PrismaClient();
+
+@@id([])
+@@unique([])
+@index([])
+
+Note : For enum we have create new model and apply to that column as a type 
+Note : When we create data in table alse we can create relation table in same query query
+Note : in creare query,select option will return specific column (whatever column we need)
+
+
+
+1) Do relation job status and material Inwards
+2) master for floor and shifts
+
+3) production plan - from Jobs
+
+    materialInward id
+    Assign floor - from master
+    shift - from master 
+    Assign qty 
+    Date 
+    Shift incharge - from user
+    production_status - whenever this status update main table status should update
+    completed_qty
+    required_coating
+    achived_coating
+    zinc_starting_level
+    zinc_ending_level
+    remarks
+   
+   there are 3 option
+   --------------------
+   Assign balance
+   submit
+   send to filing
+
+4) filing
+    production_plan_id
+    shift
+    floor
+    manager
+    recived_qty
+    completed_qty
+    filing_status  - whenever this filed updated production plab should update
+    contractor
+    remarks
+
+
+Note : 1 - production, 2 - filing  , 3- dispatch
+
+
+
+
+
+    
+
+
+
+    
+
+

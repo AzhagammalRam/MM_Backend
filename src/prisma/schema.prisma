@@ -1,0 +1,292 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  firstName String @map("first_name")
+  lastName  String @map("last_name")
+  email String  @unique
+  password String
+  status Boolean?
+  token String?
+  roleId Int
+  role Role @relation(fields: [roleId],references: [id])
+  materialProduction MaterialProduction[]
+  materialFiling MaterialFiling[]
+  shiftId Int @map("shift_id")
+  shift Shift @relation(fields: [shiftId],references: [id])
+  floorId Int @map("floor_id")
+  floor Floor @relation(fields: [floorId],references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Client {
+  id Int @id @default(autoincrement())
+  clientName String @map("client_name")
+  status Boolean?
+  bankAccount String? @map("bank_account")
+  bankBranch String? @map("bank_branch")
+  ifsc String?
+  namePerBank String? @map("name_per_bank")
+  address ClientAddress[]
+  MaterialInward MaterialInward[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("clients")
+}
+
+model ClientAddress {
+  id Int @id @default(autoincrement())
+  clientId Int @map("client_id")
+  client Client @relation(fields: [clientId],references: [id])
+  email String?
+  contact String
+  address String?
+  area String?
+  city String?
+  pincode String?
+  contactPersonName String? @map("contact_person_name")
+  contactPersonContact String? @map("contact_person_contact")
+  description String?
+  status Boolean?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("client_address") 
+}
+
+model MaterialInward {
+  id Int @id @default(autoincrement())
+  clientId Int @map("client_id")
+  client Client @relation(fields: [clientId],references: [id])
+  dcNumber String? @map("dc_number") 
+  dcImage String? @map("dc_image")
+  status Boolean?
+  materialInwardDetails MaterialInwardDetails[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("material_inward")
+}
+
+model MaterialInwardDetails{
+  id Int @id @default(autoincrement())
+  materialInwardId Int @map("material_inward_id")
+  materialInward MaterialInward @relation(fields: [materialInwardId],references: [id])
+  material String
+  thickness String
+  jobId String? @map("job_id")
+  jobTypeId Int @map("job_type_id")
+  jobType JobType @relation(fields: [jobTypeId],references: [id])
+  jobStatus String? @map("job_status")
+  receivedDate DateTime @map("received_date")
+  estimatedDispatchDate DateTime @map("estimated_dispatch_date")
+  inspection String? 
+  type String?
+  length String?
+  quantity Int
+  cleaning Int?
+  printing Int?
+  jobExpenses JobExpenses[]
+  materialProduction MaterialProduction[]
+  materialFiling MaterialFiling[]
+  materialDispatch MaterialDispatch[]
+  @@map("material_inward_details")
+}
+
+
+model MaterialProduction{
+  id Int @id @default(autoincrement())
+  MaterialInwardDetailsId Int @map("material_inward_id")
+  materialInwardDetails MaterialInwardDetails @relation(fields: [MaterialInwardDetailsId],references: [id])
+  receivedQty Int? @map("received_qty")
+  balanceQty Int? @map("balance_qty")
+  completedQty Int? @map("completed_qty")
+  assignedFloor Int? @map("assigned_floor")
+  floor Floor? @relation(fields: [assignedFloor],references: [id])
+  assignedShift Int? @map("assigned_shift")
+  shift Shift? @relation(fields: [assignedShift],references: [id])
+  date String?
+  shiftIncharge Int @map("shift_incharge")
+  user User @relation(fields: [shiftIncharge],references: [id])
+  remarks String?
+  status Int?
+  jobExpenses JobExpenses[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("material_production")
+}
+
+model MaterialFiling{
+  id Int @id @default(autoincrement())
+  MaterialInwardDetailsId Int @map("material_inward_id")
+  materialInwardDetails MaterialInwardDetails @relation(fields: [MaterialInwardDetailsId],references: [id])
+  receivedQty Int? @map("received_qty")
+  balanceQty Int? @map("balance_qty")
+  completedQty Int? @map("completed_qty")
+  assignedFloor String? @map("assigned_floor")
+  assignedShift String? @map("assigned_shift")
+  date String?
+  shiftIncharge Int @map("shift_incharge")
+  user User @relation(fields: [shiftIncharge],references: [id])
+  remarks String?
+  contractor String?
+  status Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+    
+  @@map("material_filing")
+}
+
+model MaterialDispatch{
+  id Int @id @default(autoincrement())
+  MaterialInwardDetailsId Int @map("material_inward_id")
+  materialInwardDetails MaterialInwardDetails @relation(fields: [MaterialInwardDetailsId],references: [id])
+  receivedQty Int? @map("received_qty")
+  invoiceNo String? @map("invoice_no")
+  invoiceDate String? @map("invoice_date")
+  invoiceAmount String? @map("invoice_amount")
+  status Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+    
+  @@map("material_dispatch")
+}
+
+model Floor{
+  id Int @id @default(autoincrement())
+  name String
+  user User[]
+  materialProduction MaterialProduction[]
+  status Boolean?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("floor")
+}
+
+model Shift{
+  id Int @id @default(autoincrement())
+  name String
+  materialProduction MaterialProduction[]
+  status Boolean?
+  user User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("shift")
+}
+
+model JobType{
+  id Int @id @default(autoincrement())
+  name String
+  status Boolean?
+  materialInwardDetails MaterialInwardDetails[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("job_types")
+}
+
+model Unit{
+  id Int @id @default(autoincrement())
+  unit String
+  status Boolean?
+  Material Material[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("units")
+}
+
+model Material{
+  id Int @id @default(autoincrement())
+  name String
+  unitId Int @map("unit_id")
+  unit Unit @relation(fields: [unitId],references: [id])
+  type String?
+  color String?
+  displayName String?
+  status Boolean?
+  inventory Inventory[]
+  jobExpenses JobExpenses[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("material")
+}
+
+model Role{
+  id Int @id @default(autoincrement())
+  name String
+  status Boolean?
+  user User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("role")
+}
+
+model JobtypeMaterial {
+   id Int @id @default(autoincrement())
+   jobTypeId String
+   materialId String
+   createdAt DateTime @default(now())
+   updatedAt DateTime @updatedAt
+
+   @@map("jobtype_material")
+}
+
+model Inventory {
+   id Int @id @default(autoincrement())
+   materialId Int @map("material_id")
+   material Material @relation(fields: [materialId],references: [id])
+   qty Int 
+   createdAt DateTime @default(now())
+   updatedAt DateTime @updatedAt
+
+   @@map("inventory")
+}
+
+model JobExpenses {
+  id Int @id @default(autoincrement())
+  materrialId Int @map("material_id")
+  material Material @relation(fields: [materrialId],references: [id])
+  materialInwardDetailsId Int @map("materialInward_details_id")
+  MaterialInwardDetails  MaterialInwardDetails @relation(fields: [materialInwardDetailsId],references: [id])
+  materialProductionId Int? @map("material_production_id")
+  materialProduction  MaterialProduction? @relation(fields: [materialProductionId],references: [id])
+  expectedQty Int
+  usedQty Int?
+  displayName String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("job_expenses")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
