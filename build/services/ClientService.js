@@ -114,6 +114,7 @@ const fetchAllClient = () => __awaiter(void 0, void 0, void 0, function* () {
 exports.fetchAllClient = fetchAllClient;
 const update = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log('data', data);
         let client = yield lib_1.prisma.client.update({
             where: {
                 id: data.clientId
@@ -132,9 +133,10 @@ const update = (data) => __awaiter(void 0, void 0, void 0, function* () {
         });
         yield lib_1.prisma.clientAddress.update({
             where: {
-                id: data.addressId
+                id: parseInt(data.addressId),
             },
             data: {
+                clientId: parseInt(data.clientId),
                 email: data.email,
                 contact: data.contact,
                 address: data.address,
@@ -144,7 +146,7 @@ const update = (data) => __awaiter(void 0, void 0, void 0, function* () {
                 contactPersonName: data.contactPersonName,
                 contactPersonContact: data.contactPersonContact,
                 description: data.description,
-                status: true
+                status: true,
             }
         });
         let response = {

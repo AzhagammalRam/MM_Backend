@@ -22,7 +22,8 @@ function createApp() {
     const app = (0, express_1.default)();
     global.__uploadDir = __dirname + "/uploads";
     global.__srcDir = __dirname;
-    let CLIENT_URLS = ["http://localhost:3000", "http://job-card-zaara.s3-website.ap-south-1.amazonaws.com"];
+    // let CLIENT_URLS = ["http://localhost:3000","http://job-card-zaara.s3-website.ap-south-1.amazonaws.com","https://materialmanagement.vercel.app/"]
+    let CLIENT_URLS = ["https://materialmanagement.vercel.app/"];
     app.use((0, cookie_parser_1.default)());
     app.use((0, cors_1.default)({
         origin: (origin, callback) => {
